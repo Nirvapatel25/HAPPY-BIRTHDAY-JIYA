@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Happy Birthday Jiya!</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: #F9D1D1;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      flex-direction: column;
+    }
+
+    h1 {
+      font-size: 4rem;
+      font-weight: bold;
+      color: #FFA4B6;
+      text-align: center;
+      text-shadow:
+        2px 2px 0 #F765A3,
+        4px 4px 0 #A155B9,
+        6px 6px 0 #0B1354;
+      transform: scale(1.2);
+      transition: transform 0.5s ease-in-out;
+      margin: 0;
+    }
+
+    .camera-button {
+      margin-top: 40px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      outline: none;
+    }
+
+    .camera-button img {
+      width: 100px;
+      height: auto;
+      transition: transform 0.2s ease-in-out;
+      filter: drop-shadow(2px 4px 8px rgba(0,0,0,0.3));
+    }
+
+    .camera-button img:hover {
+      transform: scale(1.05);
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: 999;
+    }
+  </style>
+</head>
+<body>
+  <h1>Happy Birthday Jiya!</h1>
+
+  <!-- Camera-shaped button -->
+  <button class="camera-button" onclick="goToMemories()">
+    <img src="camera.png" alt="Camera Button" />
+  </button>
+
+  <canvas id="confetti"></canvas>
+
+  <script>
+    // Redirect to memories page
+    function goToMemories() {
+      window.location.href = 'new.html';
+    }
+
+    // Confetti setup
+    const canvas = document.getElementById("confetti");
+    const ctx = canvas.getContext("2d");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    let confetti = [];
+    const colors = ['#F765A3', '#FFA4B6', '#F9D1D1', '#A155B9', '#165BAA'];
+
+    for (let i = 0; i < 300; i++) {
+      confetti.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height - canvas.height,
+        r: Math.random() * 6 + 4,
+        d: Math.random() * 50 + 10,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        tilt: Math.random() * 10 - 10,
+        tiltAngleIncrement: Math.random() * 0.1 + 0.05,
+        tiltAngle: 0
+      });
+    }
+
+    function drawConfetti() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      confetti.forEach((c, i) => {
+        ctx.beginPath();
+        ctx.lineWidth = c.r / 2;
+        ctx.strokeStyle = c.color;
+        ctx.moveTo(c.x + c.tilt + c.r / 2, c.y);
+        ctx.lineTo(c.x + c.tilt, c.y + c.tilt + c.r / 2);
+        ctx.stroke();
+      });
+      updateConfetti();
+    }
+
+    function updateConfetti() {
+      confetti.forEach((c, i) => {
+        c.tiltAngle += c.tiltAngleIncrement;
+        c.y += (Math.cos(c.d) + 3 + c.r / 2) / 2;
+        c.tilt = Math.sin(c.tiltAngle - i / 3) * 15;
+
+        if (c.y > canvas.height) {
+          c.y = -10;
+          c.x = Math.random() * canvas.width;
+        }
+      });
+    }
+
+    function animateConfetti() {
+      drawConfetti();
+      requestAnimationFrame(animateConfetti);
+    }
+
+    animateConfetti();
+  </script>
+</body>
+</html>

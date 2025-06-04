@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Our Memories</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: white;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+    }
+
+    .memory-photo {
+      width: 90vw;
+      max-width: 600px;
+      border-radius: 8px;
+      box-shadow: 0 0 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .next-button {
+      margin-top: 20px;
+      background: #F765A3;
+      color: white;
+      font-size: 1.2rem;
+      padding: 10px 24px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-family: 'Courier New', Courier, monospace;
+      box-shadow: 0 0 10px rgba(0,0,0,0.4);
+    }
+
+    .next-button:hover {
+      background: #A155B9;
+    }
+  </style>
+</head>
+<body>
+
+  <img class="memory-photo" id="memory" src="A.png" alt="Memory">
+
+  <button class="next-button" onclick="nextPhoto()">Next</button>
+
+  <audio id="click-sound" src="click.mp3" preload="auto"></audio>
+
+  <script>
+    const filenames = [
+      'A.png', 'B.png', 'C.png', 'D.png', 'E.png',
+      'F.png', 'G.png', 'H.png', 'I.png', 'J.png',
+      'K.png', 'L.png', 'M.png', 'N.png', 'O.png',
+      
+    ];
+
+    let index = 0;
+
+    function nextPhoto() {
+      const clickSound = document.getElementById('click-sound');
+      clickSound.currentTime = 0;
+      clickSound.play();
+
+      index = (index + 1) % filenames.length;
+      document.getElementById('memory').src = filenames[index];
+    }
+  </script>
+
+</body>
+</html>
